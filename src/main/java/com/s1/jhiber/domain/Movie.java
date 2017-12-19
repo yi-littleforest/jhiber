@@ -5,11 +5,20 @@
  */
 package com.s1.jhiber.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  *
  * @author yi
  */
+@Entity
+@Table(name="MOVIES")
 public class Movie {
+    @Id
+    @GeneratedValue
     private int id = 0;
 
     private String  title = null;

@@ -10,9 +10,10 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
+//import org.hibernate.service.ServiceRegistryBuilder;
 
 
 
@@ -21,17 +22,29 @@ public class BasicMovieManager {
     private SessionFactory sessionFactory = null;
 
     public BasicMovieManager() {
-        init4x();
+        init5x();
+       // init4x();
 //        init3x();
+    }
+    
+    private void init5x(){
+        Configuration config = new Configuration().configure();
+        ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
+                config.getProperties()).build();
+        
+        config.addAnnotatedClass(Movie.class);
+        
+        
+        sessionFactory = config.buildSessionFactory(serviceRegistry);
     }
 
     private void init4x() {
         Configuration config = new Configuration().configure();
 
-        ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(
+       /* ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(
                 config.getProperties()).buildServiceRegistry();
 
-        sessionFactory = config.buildSessionFactory(serviceRegistry);
+        sessionFactory = config.buildSessionFactory(serviceRegistry);*/
 
     }
 
@@ -65,6 +78,8 @@ public class BasicMovieManager {
         Movie movie = (Movie) session.load(Movie.class, i);
 
         System.out.println("Movie:" + movie);
+        
+        System.out.println("Movie tile:" + movie.getTitle());
 
         session.getTransaction().commit();
 
@@ -89,7 +104,7 @@ public class BasicMovieManager {
 
       //  movieManager.persistMovie();
 
-     //   movieManager.findMovie(1);
+        movieManager.findMovie(1);
 
        // movieManager.findAll();
     }
